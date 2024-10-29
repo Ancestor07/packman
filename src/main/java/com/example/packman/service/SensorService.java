@@ -7,6 +7,7 @@ import com.example.packman.request.SensorRequest;
 import com.example.packman.response.DataGroupResponse;
 import com.example.packman.response.DataResponse;
 import com.example.packman.response.DetailDateResponse;
+import com.example.packman.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +32,7 @@ public class SensorService {
                 .id(UUID.randomUUID().toString())
                 .ph(sensorRequest.getPh())
                 .temperature(sensorRequest.getTemperature())
-                .date(LocalDateTime.now()).build();
+                .date(new Date()).build();
         sensorRepository.save(sensor);
         return "Data added";
     }
@@ -42,7 +43,7 @@ public class SensorService {
                 .id(sensor.getId())
                 .ph(sensor.getPh())
                 .temperature(sensor.getTemperature())
-                .dateTime(sensor.getDate())
+                .dateTime(new Date())
                 .build()).collect(Collectors.toList());
     }
 
@@ -55,12 +56,11 @@ public class SensorService {
                 .build()).collect(Collectors.toList());
     }
 
-    public DetailDateResponse getDetailDate(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate dateTime = LocalDate.parse(date, formatter);
-        System.out.println(dateTime);
-        SensorView sensorView = sensorRepository.findGroupByDate(dateTime);
-        List<Sensor> sensorList = sensorRepository.findAllByDate(dateTime);
+    public DetailDateResponse getDetailDate(String dateString) {
+        Date parsedDate = DateUtil.convertStringToDate(dateString);
+        System.out.println(parsedDate);
+        SensorView sensorView = sensorRepository.findGroupByDate(parsedDate);
+        List<Sensor> sensorList = sensorRepository.findAllByDate(parsedDate);
         List<DataResponse> sensorData = sensorList.stream().map(data -> DataResponse.builder()
                 .id(data.getId())
                 .dateTime(data.getDate())

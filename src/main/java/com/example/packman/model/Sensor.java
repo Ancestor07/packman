@@ -4,6 +4,7 @@ package com.example.packman.model;
  import lombok.*;
 
  import java.time.LocalDateTime;
+ import java.util.Date;
 
 @Entity
 @Table(name = "sensor")
@@ -19,7 +20,7 @@ public class Sensor {
     private String id;
 
     @Column(name = "date")
-    private LocalDateTime date;
+    private Date date;
 
     @Column(name = "ph")
     private Double ph;

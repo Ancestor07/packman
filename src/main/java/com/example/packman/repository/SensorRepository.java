@@ -17,7 +17,7 @@ public interface SensorRepository extends JpaRepository<Sensor, String> {
     List<SensorView> findAllGroupByDate();
 
     @Query("SELECT DATE(s.date) as time, AVG(s.ph) as ph, AVG(s.temperature) as temp FROM Sensor s WHERE DATE(s.date) = :date GROUP BY DATE(s.date)")
-    SensorView findGroupByDate(@Param("date") LocalDate date);
+    SensorView findGroupByDate(@Param("date") Date date);
 
-    List<Sensor> findAllByDate(LocalDate date);
+    List<Sensor> findAllByDate(Date date);
 }
