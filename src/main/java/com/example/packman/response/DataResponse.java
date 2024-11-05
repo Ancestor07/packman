@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Setter
 @Getter
@@ -18,5 +19,5 @@ public class DataResponse {
     private String id;
     private Double ph;
     private Double temperature;
-    private LocalDateTime dateTime;
+    private Date dateTime;
 }
