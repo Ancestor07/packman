@@ -12,9 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -43,7 +40,7 @@ public class SensorService {
                 .id(sensor.getId())
                 .ph(sensor.getPh())
                 .temperature(sensor.getTemperature())
-                .dateTime(new Date())
+                .dateTime(sensor.getDate())
                 .build()).collect(Collectors.toList());
     }
 
@@ -61,6 +58,7 @@ public class SensorService {
         System.out.println(parsedDate);
         SensorView sensorView = sensorRepository.findGroupByDate(parsedDate);
         List<Sensor> sensorList = sensorRepository.findAllByDate(parsedDate);
+        System.out.println(sensorList);
         List<DataResponse> sensorData = sensorList.stream().map(data -> DataResponse.builder()
                 .id(data.getId())
                 .dateTime(data.getDate())
