@@ -20,4 +20,7 @@ public interface SensorRepository extends JpaRepository<Sensor, String> {
 
     @Query("SELECT S FROM Sensor S WHERE DATE(S.date) = :date ")
     List<Sensor> findAllByDate(Date date);
+
+    @Query("SELECT S FROM Sensor S ORDER BY S.date DESC LIMIT 10")
+    List<Sensor> findLastData();
 }

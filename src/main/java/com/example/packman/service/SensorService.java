@@ -37,7 +37,7 @@ public class SensorService {
     }
 
     public List<DataResponse> getListData() {
-        List<Sensor> sensorList = sensorRepository.findAll();
+        List<Sensor> sensorList = sensorRepository.findLastData();
         return sensorList.stream().map(sensor -> DataResponse.builder()
                 .id(sensor.getId())
                 .ph(NumberUtil.convertAfterComma(sensor.getPh(), 2))
