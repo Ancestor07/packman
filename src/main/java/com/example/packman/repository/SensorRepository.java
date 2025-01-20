@@ -11,10 +11,10 @@ import java.util.List;
 
 public interface SensorRepository extends JpaRepository<Sensor, String> {
 
-    @Query("SELECT DATE(s.date) as time, AVG(s.ph) as ph, AVG(s.temperature) as temp FROM Sensor s GROUP BY DATE(s.date)")
+    @Query("SELECT DATE(s.date) as time, AVG(s.ph) as ph, AVG(s.temperature) as temp FROM Sensor s GROUP BY DATE(s.date) ORDER BY s.date DESC")
     List<SensorView> findAllGroupByDate();
 
-    @Query("SELECT DATE(s.date) as time, AVG(s.ph) as ph, AVG(s.temperature) as temp FROM Sensor s WHERE DATE(s.date) = :date GROUP BY DATE(s.date)")
+    @Query("SELECT DATE(s.date) as time, AVG(s.ph) as ph, AVG(s.temperature) as temp FROM Sensor s WHERE DATE(s.date) = :date GROUP BY DATE(s.date) ORDER BY s.date DESC")
     SensorView findGroupByDate(@Param("date") Date date);
 
 

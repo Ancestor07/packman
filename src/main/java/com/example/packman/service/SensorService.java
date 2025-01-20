@@ -13,10 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,12 +38,13 @@ public class SensorService {
 
     public List<DataResponse> getListData() {
         List<Sensor> sensorList = sensorRepository.findLastData();
-        return sensorList.stream().map(sensor -> DataResponse.builder()
+        List<DataResponse> collect = sensorList.stream().map(sensor -> DataResponse.builder()
                 .id(sensor.getId())
                 .ph(NumberUtil.convertAfterComma(sensor.getPh(), 2))
                 .temperature(NumberUtil.convertAfterComma(sensor.getTemperature(), 2))
                 .dateTime(sensor.getDate())
                 .build()).collect(Collectors.toList());
+        return collect.stream().sorted(Comparator.comparing(DataResponse::getDateTime)).collect(Collectors.toList());
     }
 
     public List<DataGroupResponse> getListDataGroupByDate() {
@@ -61,7 +62,7 @@ public class SensorService {
         List<Sensor> sensorList = sensorRepository.findAllByDate(parsedDate);
         List<DataResponse> sensorData = sensorList.stream().map(data -> DataResponse.builder()
                 .id(data.getId())
-                .dateTime(data.getDate())
+//                .dateTime(data.getDate())
                 .ph(NumberUtil.convertAfterComma(data.getPh(), 2))
                 .temperature(NumberUtil.convertAfterComma(data.getTemperature(), 2))
                 .build()).collect(Collectors.toList());
